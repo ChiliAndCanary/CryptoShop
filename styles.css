@@ -6,11 +6,23 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px;
+}
+h1 {
+    color: #0056b3;
+    font-size: 2em;
 }
 h2 {
     color: #0056b3;
+    font-size: 1.5em;
+}
+.intro {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 20px;
+    font-size: 1em;
 }
 p, h3 {
     color: #333;
@@ -26,7 +38,7 @@ ul li {
     margin: 5px 0;
     border-radius: 5px;
 }
-#connectButton, #payButton {
+#connectButton, #payButton, #submitButton {
     background-color: #0056b3;
     color: #fff;
     border: none;
@@ -34,8 +46,9 @@ ul li {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin: 10px 0;
 }
-#connectButton:hover, #payButton:hover {
+#connectButton:hover, #payButton:hover, #submitButton:hover {
     background-color: #003f7f;
 }
 #status {
@@ -50,6 +63,8 @@ form {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 .form-group {
     margin-bottom: 1em;
