@@ -43,21 +43,4 @@ document.getElementById('payButton').addEventListener('click', async () => {
 
     if (blockchain === 'eth' || blockchain === 'bsc') {
         const accounts = await window.web3.eth.getAccounts();
-        const usdtAddress = blockchain === 'eth' ? 'ADRESSE_ETH_USDT' : 'ADRESSE_BSC_USDT';
-
-        try {
-            await window.web3.eth.sendTransaction({
-                from: accounts[0],
-                to: usdtAddress,
-                value: window.web3.utils.toWei(amount.toString(), 'ether')
-            });
-            alert('Paiement effectué avec succès');
-        } catch (error) {
-            console.error(error);
-            alert('Erreur lors du paiement');
-        }
-    } else if (blockchain === 'sol') {
-        const provider = window.solana;
-        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
-        const transaction = new solanaWeb3.Transaction().add(
-            solanaWeb3.SystemProgram.transfer({
+        const usdtAddress = blockchain === 'eth' ? '
