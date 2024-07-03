@@ -61,19 +61,3 @@ document.getElementById('payButton').addEventListener('click', async () => {
         const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
         const transaction = new solanaWeb3.Transaction().add(
             solanaWeb3.SystemProgram.transfer({
-                fromPubkey: provider.publicKey,
-                toPubkey: 'ADRESSE_SOL_USDT',
-                lamports: amount * solanaWeb3.LAMPORTS_PER_SOL,
-            })
-        );
-
-        try {
-            const signature = await provider.signAndSendTransaction(transaction);
-            await connection.confirmTransaction(signature);
-            alert('Paiement effectué avec succès');
-        } catch (error) {
-            console.error(error);
-            alert('Erreur lors du paiement');
-        }
-    }
-});
