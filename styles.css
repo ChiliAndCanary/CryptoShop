@@ -12,17 +12,28 @@ body {
 }
 h1 {
     color: #0056b3;
-    font-size: 2em;
+    font-size: 2.5em;
 }
 h2 {
     color: #0056b3;
-    font-size: 1.5em;
+    font-size: 1.8em;
+    margin-bottom: 10px;
 }
 .intro {
     text-align: center;
     max-width: 600px;
     margin-bottom: 20px;
-    font-size: 1em;
+    font-size: 1.2em;
+    line-height: 1.5;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.instructions {
+    display: block;
+    margin-top: 10px;
+    color: #0056b3;
 }
 p, h3 {
     color: #333;
@@ -30,6 +41,7 @@ p, h3 {
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 20px 0;
 }
 ul li {
     background-color: #fff;
