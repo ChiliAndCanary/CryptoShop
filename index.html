@@ -5,13 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement en Cryptomonnaie</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; connect-src 'self' https://mainnet.infura.io">
     <style>
-        body { font-family: Arial, sans-serif; }
-        .form-group { margin-bottom: 1em; }
-        label { display: block; margin-bottom: 0.5em; }
-        input, select { width: 100%; padding: 0.5em; }
-        button { padding: 0.5em 1em; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        p, h3 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        #connectButton, #payButton {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #connectButton:hover, #payButton:hover {
+            background-color: #003f7f;
+        }
+        #status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ff0000;
+        }
+        form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 1em;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -48,7 +112,6 @@
         <button type="button" id="payButton">Payer</button>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
     <script>
         document.getElementById('connectButton').addEventListener('click', async () => {
             const blockchain = document.getElementById('blockchain').value;
@@ -58,6 +121,7 @@
                     try {
                         await window.ethereum.request({ method: 'eth_requestAccounts' });
                         document.getElementById('status').innerText = 'Wallet connecté';
+                        document.getElementById('status').style.color = '#28a745';
                     } catch (error) {
                         console.error(error);
                         document.getElementById('status').innerText = 'Connexion au wallet échouée';
@@ -72,6 +136,7 @@
                     if (provider.isPhantom) {
                         await provider.connect();
                         document.getElementById('status').innerText = 'Wallet Solana connecté';
+                        document.getElementById('status').style.color = '#28a745';
                     } else {
                         document.getElementById('status').innerText = 'Phantom Wallet non détecté';
                     }
@@ -133,3 +198,4 @@
     </script>
 </body>
 </html>
+
