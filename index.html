@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1>Pimienta de Tenerife Crypto$hop</h1>
     <h2>Paiement en Cryptomonnaie</h2>
-    <p>Sélectionnez le produit que vous souhaitez acheter et suivez les instructions ci-dessous pour effectuer un paiement en cryptomonnaie.</p>
+    <p class="intro">
+        En esta pagina puedes comprar tus productos favoritos de Pimienta de Tenerife y Chili&Canary con USDT ! Rellena el formulario para eligir tus productos. Conecta tu wallet. Elige la blockchain - no te equivoques ! y por fin pon el total a pagar y dale clic a "pagar". Te confirmamos por e-mail lo antes posible !
+    </p>
 
     <h3>Produits disponibles :</h3>
     <ul>
@@ -18,9 +21,6 @@
         <li>Sauce Piquante 2 - 12 USDT</li>
         <li>Piment en Poudre - 8 USDT</li>
     </ul>
-
-    <button id="connectButton">Connecter votre Wallet</button>
-    <div id="status"></div>
 
     <form id="paymentForm">
         <div class="form-group">
@@ -39,7 +39,34 @@
             <label for="amount">Montant à Envoyer (en USDT):</label>
             <input type="number" step="0.01" id="amount" name="amount" required>
         </div>
+        <button type="button" id="connectButton">Connecter votre Wallet</button>
         <button type="button" id="payButton">Payer</button>
+        <div id="status"></div>
+    </form>
+
+    <form id="contactForm">
+        <h3>Formulario de contacto</h3>
+        <div class="form-group">
+            <label for="name">Nombre y Apellido:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Dirección Completa:</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+        <div class="form-group">
+            <label for="postalcode">Código Postal y Municipio:</label>
+            <input type="text" id="postalcode" name="postalcode" required>
+        </div>
+        <div class="form-group">
+            <label for="province">Provincia:</label>
+            <input type="text" id="province" name="province" required>
+        </div>
+        <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <button type="submit" id="submitButton">Valider</button>
     </form>
 
     <script src="scripts.js"></script>
