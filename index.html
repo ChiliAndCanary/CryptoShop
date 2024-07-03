@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement en Cryptomonnaie</title>
-    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; connect-src 'self' https://mainnet.infura.io">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .form-group { margin-bottom: 1em; }
+        label { display: block; margin-bottom: 0.5em; }
+        input, select { width: 100%; padding: 0.5em; }
+        button { padding: 0.5em 1em; }
+    </style>
 </head>
 <body>
     <h2>Paiement en Cryptomonnaie</h2>
@@ -12,61 +20,114 @@
 
     <h3>Produits disponibles :</h3>
     <ul>
-        <li>Sauce Piquante 1 - 0.002 ETH</li>
-        <li>Sauce Piquante 2 - 0.0024 ETH</li>
-        <li>Piment en Poudre - 0.0016 ETH</li>
+        <li>Sauce Piquante 1 - 10 USDT</li>
+        <li>Sauce Piquante 2 - 12 USDT</li>
+        <li>Piment en Poudre - 8 USDT</li>
     </ul>
 
     <button id="connectButton">Connecter votre Wallet</button>
     <div id="status"></div>
 
     <form id="paymentForm">
-        <label for="product">Nom du Produit:</label><br>
-        <input type="text" id="product" name="product"><br>
-        <label for="amount">Montant à Envoyer (en ETH):</label><br>
-        <input type="text" id="amount" name="amount"><br><br>
+        <div class="form-group">
+            <label for="blockchain">Sélectionnez la blockchain:</label>
+            <select id="blockchain" name="blockchain">
+                <option value="eth">Ethereum</option>
+                <option value="bsc">Binance Smart Chain</option>
+                <option value="sol">Solana</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="product">Nom du Produit:</label>
+            <input type="text" id="product" name="product" required>
+        </div>
+        <div class="form-group">
+            <label for="amount">Montant à Envoyer (en USDT):</label>
+            <input type="number" step="0.01" id="amount" name="amount" required>
+        </div>
         <button type="button" id="payButton">Payer</button>
     </form>
 
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.js"></script>
     <script>
         document.getElementById('connectButton').addEventListener('click', async () => {
-            if (window.ethereum) {
-                window.web3 = new Web3(window.ethereum);
+            const blockchain = document.getElementById('blockchain').value;
+            if (blockchain === 'eth' || blockchain === 'bsc') {
+                if (window.ethereum) {
+                    window.web3 = new Web3(window.ethereum);
+                    try {
+                        await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        document.getElementById('status').innerText = 'Wallet connecté';
+                    } catch (error) {
+                        console.error(error);
+                        document.getElementById('status').innerText = 'Connexion au wallet échouée';
+                    }
+                } else {
+                    document.getElementById('status').innerText = 'MetaMask non détecté';
+                }
+            } else if (blockchain === 'sol') {
+                // Pour Solana, nous utiliserons Phantom Wallet
                 try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    document.getElementById('status').innerText = 'Wallet connecté';
+                    const provider = window.solana;
+                    if (provider.isPhantom) {
+                        await provider.connect();
+                        document.getElementById('status').innerText = 'Wallet Solana connecté';
+                    } else {
+                        document.getElementById('status').innerText = 'Phantom Wallet non détecté';
+                    }
                 } catch (error) {
                     console.error(error);
                     document.getElementById('status').innerText = 'Connexion au wallet échouée';
                 }
-            } else {
-                document.getElementById('status').innerText = 'MetaMask non détecté';
             }
         });
 
         document.getElementById('payButton').addEventListener('click', async () => {
-            const product = document.getElementById('product').value;
-            const amount = document.getElementById('amount').value;
+            const product = document.getElementById('product').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value.trim());
+            const blockchain = document.getElementById('blockchain').value;
 
-            if (!product || !amount) {
-                alert('Veuillez remplir tous les champs');
+            if (!product || isNaN(amount) || amount <= 0) {
+                alert('Veuillez remplir tous les champs correctement.');
                 return;
             }
 
-            const accounts = await window.web3.eth.getAccounts();
-            const toAddress = '0x1afe1C81eAb5cf58852Aa5D7A466E5aB3964A8AD';
+            if (blockchain === 'eth' || blockchain === 'bsc') {
+                const accounts = await window.web3.eth.getAccounts();
+                const usdtAddress = blockchain === 'eth' ? 'ADRESSE_ETH_USDT' : 'ADRESSE_BSC_USDT';
 
-            try {
-                await window.web3.eth.sendTransaction({
-                    from: accounts[0],
-                    to: toAddress,
-                    value: window.web3.utils.toWei(amount, 'ether')
-                });
-                alert('Paiement effectué avec succès');
-                // Envoyer les détails de la commande par email ou enregistrer dans une base de données
-            } catch (error) {
-                console.error(error);
-                alert('Erreur lors du paiement');
+                try {
+                    await window.web3.eth.sendTransaction({
+                        from: accounts[0],
+                        to: usdtAddress,
+                        value: window.web3.utils.toWei(amount.toString(), 'ether')
+                    });
+                    alert('Paiement effectué avec succès');
+                    // Envoyer les détails de la commande par email ou enregistrer dans une base de données
+                } catch (error) {
+                    console.error(error);
+                    alert('Erreur lors du paiement');
+                }
+            } else if (blockchain === 'sol') {
+                const provider = window.solana;
+                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.SystemProgram.transfer({
+                        fromPubkey: provider.publicKey,
+                        toPubkey: 'ADRESSE_SOL_USDT',
+                        lamports: amount * solanaWeb3.LAMPORTS_PER_SOL, // Conversion de USDT à SOL nécessaire ici
+                    })
+                );
+
+                try {
+                    const signature = await provider.signAndSendTransaction(transaction);
+                    await connection.confirmTransaction(signature);
+                    alert('Paiement effectué avec succès');
+                    // Envoyer les détails de la commande par email ou enregistrer dans une base de données
+                } catch (error) {
+                    console.error(error);
+                    alert('Erreur lors du paiement');
+                }
             }
         });
     </script>
