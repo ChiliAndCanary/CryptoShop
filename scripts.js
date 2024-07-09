@@ -2,6 +2,10 @@ let cart = [];
 let orderNumber = '';
 
 function addToCart(id, name, price) {
+    if (cart.length === 0) {
+        generateOrderNumber();
+    }
+
     const quantity = parseInt(document.getElementById(`quantity${id}`).value);
     const item = {
         id: id,
@@ -45,6 +49,11 @@ function clearCart() {
     generateOrderNumber();
 }
 
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    updateCartDetails();
+}
+
 function generateOrderNumber() {
     const now = new Date();
     const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
@@ -53,8 +62,18 @@ function generateOrderNumber() {
     document.getElementById('orderNumber').value = orderNumber;
 }
 
-document.getElementById('connectButton').addEventListener('click', () => {
-    // Connect wallet logic
+document.getElementById('connectButton').addEventListener('click', async () => {
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            await ethereum.request({ method: 'eth_requestAccounts' });
+            document.getElementById('status').innerText = 'Wallet connected!';
+        } catch (error) {
+            console.error('User denied account access');
+            document.getElementById('status').innerText = 'User denied account access';
+        }
+    } else {
+        document.getElementById('status').innerText = 'No Ethereum provider detected';
+    }
 });
 
 document.getElementById('payButton').addEventListener('click', () => {
@@ -66,3 +85,4 @@ document.getElementById('contactForm').addEventListener('submit', (event) => {
     // Additional logic to handle form submission
     alert('Form submitted successfully!');
 });
+
