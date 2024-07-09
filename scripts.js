@@ -1,46 +1,45 @@
-document.getElementById('connectButton').addEventListener('click', async () => {
-    const blockchain = document.getElementById('blockchain').value;
-    if (blockchain === 'eth' || blockchain === 'bsc') {
-        if (window.ethereum) {
-            window.web3 = new Web3(window.ethereum);
-            try {
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                document.getElementById('status').innerText = 'Wallet connecté';
-                document.getElementById('status').style.color = '#28a745';
-            } catch (error) {
-                console.error(error);
-                document.getElementById('status').innerText = 'Connexion au wallet échouée';
-            }
-        } else {
-            document.getElementById('status').innerText = 'MetaMask non détecté';
-        }
-    } else if (blockchain === 'sol') {
-        try {
-            const provider = window.solana;
-            if (provider.isPhantom) {
-                await provider.connect();
-                document.getElementById('status').innerText = 'Wallet Solana connecté';
-                document.getElementById('status').style.color = '#28a745';
-            } else {
-                document.getElementById('status').innerText = 'Phantom Wallet non détecté';
-            }
-        } catch (error) {
-            console.error(error);
-            document.getElementById('status').innerText = 'Connexion au wallet échouée';
-        }
+let cart = [];
+
+function addToCart(id, name, price) {
+    const quantity = document.getElementById(`quantity${id}`).value;
+    const item = {
+        id: id,
+        name: name,
+        price: price,
+        quantity: parseInt(quantity)
+    };
+
+    // Check if item already exists in the cart
+    const existingItem = cart.find(cartItem => cartItem.id === id);
+    if (existingItem) {
+        existingItem.quantity += item.quantity;
+    } else {
+        cart.push(item);
     }
+
+    updateCartDetails();
+}
+
+function updateCartDetails() {
+    let cartDetails = '';
+    let totalAmount = 0;
+
+    cart.forEach(item => {
+        cartDetails += `${item.name} x ${item.quantity}\n`;
+        totalAmount += item.price * item.quantity;
+    });
+
+    document.getElementById('cartDetails').value = cartDetails;
+    document.getElementById('amount').value = totalAmount;
+}
+
+// Add your wallet connection and payment logic here
+
+document.getElementById('connectButton').addEventListener('click', () => {
+    // Connect wallet logic
 });
 
-document.getElementById('payButton').addEventListener('click', async () => {
-    const product = document.getElementById('product').value.trim();
-    const amount = parseFloat(document.getElementById('amount').value.trim());
-    const blockchain = document.getElementById('blockchain').value;
+document.getElementById('payButton').addEventListener('click', () => {
+    // Payment logic
+});
 
-    if (!product || isNaN(amount) || amount <= 0) {
-        alert('Veuillez remplir tous les champs correctement.');
-        return;
-    }
-
-    if (blockchain === 'eth' || blockchain === 'bsc') {
-        const accounts = await window.web3.eth.getAccounts();
-        const usdtAddress = blockchain === 'eth' ? '
