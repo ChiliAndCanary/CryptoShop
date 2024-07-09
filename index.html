@@ -49,7 +49,60 @@
             <input type="number" id="quantity3" name="quantity3" min="1" max="10" value="1">
             <button type="button" onclick="addToCart(3, 'Mojo Picon', 6.50)">Ajouter au Panier</button>
         </div>
-        <!-- Add six more products here -->
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produit 4">
+            <h4>Produit 4</h4>
+            <p>Description du produit 4.</p>
+            <p><strong>11 USDT</strong></p>
+            <label for="quantity4">Quantité:</label>
+            <input type="number" id="quantity4" name="quantity4" min="1" max="10" value="1">
+            <button type="button" onclick="addToCart(4, 'Produit 4', 11)">Ajouter au Panier</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produit 5">
+            <h4>Produit 5</h4>
+            <p>Description du produit 5.</p>
+            <p><strong>9 USDT</strong></p>
+            <label for="quantity5">Quantité:</label>
+            <input type="number" id="quantity5" name="quantity5" min="1" max="10" value="1">
+            <button type="button" onclick="addToCart(5, 'Produit 5', 9)">Ajouter au Panier</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produit 6">
+            <h4>Produit 6</h4>
+            <p>Description du produit 6.</p>
+            <p><strong>14 USDT</strong></p>
+            <label for="quantity6">Quantité:</label>
+            <input type="number" id="quantity6" name="quantity6" min="1" max="10" value="1">
+            <button type="button" onclick="addToCart(6, 'Produit 6', 14)">Ajouter au Panier</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produit 7">
+            <h4>Produit 7</h4>
+            <p>Description du produit 7.</p>
+            <p><strong>15 USDT</strong></p>
+            <label for="quantity7">Quantité:</label>
+            <input type="number" id="quantity7" name="quantity7" min="1" max="10" value="1">
+            <button type="button" onclick="addToCart(7, 'Produit 7', 15)">Ajouter au Panier</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produit 8">
+            <h4>Produit 8</h4>
+            <p>Description du produit 8.</p>
+            <p><strong>13 USDT</strong></p>
+            <label for="quantity8">Quantité:</label>
+            <input type="number" id="quantity8" name="quantity8" min="1" max="10" value="1">
+            <button type="button" onclick="addToCart(8, 'Produit 8', 13)">Ajouter au Panier</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Produit 9">
+            <h4>Produit 9</h4>
+            <p>Description du produit 9.</p>
+            <p><strong>16 USDT</strong></p>
+            <label for="quantity9">Quantité:</label>
+            <input type="number" id="quantity9" name="quantity9" min="1" max="10" value="1">
+            <button type="button" onclick="addToCart(9, 'Produit 9', 16)">Ajouter au Panier</button>
+        </div>
     </div>
 
     <form id="paymentForm">
@@ -67,10 +120,7 @@
         </div>
         <div class="form-group">
             <label for="shippingCost">Precio envio:</label>
-            <select id="shippingCost" name="shippingCost" onchange="updateTotal()">
-                <option value="4">4 USDT</option>
-                <option value="0">0 USDT (commande totale de plus de 25 USDT)</option>
-            </select>
+            <input type="text" id="shippingCost" name="shippingCost" value="4" readonly>
         </div>
         <div class="form-group">
             <label for="amount">Montant à Envoyer (en USDT):</label>
@@ -83,32 +133,13 @@
     </form>
 
     <form id="contactForm">
-        <h3>Formulario de contacto</h3>
+        <h3>Direccion de envio</h3>
         <div class="form-group">
-            <label for="name">Nombre y Apellido:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="orderNumber">Numero de Pedido:</label>
+            <input type="text" id="orderNumber" name="orderNumber" readonly>
         </div>
         <div class="form-group">
-            <label for="address">Dirección Completa:</label>
-            <input type="text" id="address" name="address" required>
-        </div>
-        <div class="form-group">
-            <label for="postalcode">Código Postal y Municipio:</label>
-            <input type="text" id="postalcode" name="postalcode" required>
-        </div>
-        <div class="form-group">
-            <label for="province">Provincia:</label>
-            <input type="text" id="province" name="province" required>
-        </div>
-        <div class="form-group">
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <button type="submit" id="submitButton">Valider</button>
-    </form>
+           
 
-    <script src="scripts.js"></script>
-</body>
-</html>
 
 
