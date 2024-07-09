@@ -13,6 +13,7 @@ body {
 h1 {
     color: #0056b3;
     font-size: 2.5em;
+    margin-bottom: 20px;
 }
 h2 {
     color: #0056b3;
@@ -35,22 +36,40 @@ h2 {
     margin-top: 10px;
     color: #0056b3;
 }
-p, h3 {
+h3 {
     color: #333;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
-ul li {
+.product {
     background-color: #fff;
     border: 1px solid #ddd;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-#connectButton, #payButton, #submitButton {
+.product img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.product h4 {
+    color: #0056b3;
+    margin-bottom: 10px;
+}
+.product p {
+    margin: 10px 0;
+}
+button {
     background-color: #0056b3;
     color: #fff;
     border: none;
@@ -60,13 +79,8 @@ ul li {
     font-size: 16px;
     margin: 10px 0;
 }
-#connectButton:hover, #payButton:hover, #submitButton:hover {
+button:hover {
     background-color: #003f7f;
-}
-#status {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #ff0000;
 }
 form {
     background-color: #fff;
@@ -89,7 +103,4 @@ label {
 }
 input, select {
     width: 100%;
-    padding: 0.5em;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
+    padding:
