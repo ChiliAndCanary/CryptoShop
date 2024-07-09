@@ -1,12 +1,12 @@
 let cart = [];
 
 function addToCart(id, name, price) {
-    const quantity = document.getElementById(`quantity${id}`).value;
+    const quantity = parseInt(document.getElementById(`quantity${id}`).value);
     const item = {
         id: id,
         name: name,
         price: price,
-        quantity: parseInt(quantity)
+        quantity: quantity
     };
 
     // Check if item already exists in the cart
@@ -30,10 +30,24 @@ function updateCartDetails() {
     });
 
     document.getElementById('cartDetails').value = cartDetails;
-    document.getElementById('amount').value = totalAmount;
+
+    let shippingCost = parseFloat(document.getElementById('shippingCost').value);
+    if (totalAmount > 25) {
+        shippingCost = 0;
+        document.getElementById('shippingCost').value = 0;
+    }
+
+    document.getElementById('amount').value = totalAmount + shippingCost;
 }
 
-// Add your wallet connection and payment logic here
+function updateTotal() {
+    updateCartDetails();
+}
+
+function clearCart() {
+    cart = [];
+    updateCartDetails();
+}
 
 document.getElementById('connectButton').addEventListener('click', () => {
     // Connect wallet logic
@@ -42,4 +56,3 @@ document.getElementById('connectButton').addEventListener('click', () => {
 document.getElementById('payButton').addEventListener('click', () => {
     // Payment logic
 });
-
