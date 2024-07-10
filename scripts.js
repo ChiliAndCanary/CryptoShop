@@ -1,52 +1,47 @@
 let cart = [];
-let orderNumber = '';
+let totalAmount = 0;
+let shippingCost = 4.00;
 
-function addToCart(id, name, price) {
-    if (cart.length === 0) {
-        generateOrderNumber();
-    }
+function generateOrderNumber() {
+    const now = new Date();
+    const orderNumber = now.toISOString().replace(/[-:.TZ]/g, "");
+    document.getElementById('orderNumber').value = orderNumber;
+}
 
-    const quantity = parseInt(document.getElementById(`quantity${id}`).value);
-    const item = {
-        id: id,
-        name: name,
-        price: price,
-        quantity: quantity
-    };
-
-    // Check if item already exists in the cart
-    const existingItem = cart.find(cartItem => cartItem.id === id);
-    if (existingItem) {
-        existingItem.quantity += item.quantity;
-    } else {
-        cart.push(item);
-    }
-
-    updateCartDetails();
+function updateShippingCost() {
+    const totalWithoutShipping = totalAmount;
+    shippingCost = totalWithoutShipping >= 25 ? 0 : 4;
+    document.getElementById('shippingCost').value = shippingCost.toFixed(2);
 }
 
 function updateCartDetails() {
     let cartDetails = '';
-    let totalAmount = 0;
-
+    totalAmount = 0;
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
-        cartDetails += `${item.name} x ${item.quantity} = ${itemTotal.toFixed(2)} USDT\n`;
         totalAmount += itemTotal;
+        cartDetails += `${item.name} x${item.quantity} - ${itemTotal.toFixed(2)} USDT\n`;
     });
 
-    document.getElementById('cartDetails').value = cartDetails;
-
-    let shippingCost = totalAmount >= 25 ? 0 : 4;
-    document.getElementById('shippingCost').value = shippingCost.toFixed(2);
+    document.getElementById('cartDetails').value = cartDetails.trim();
+    updateShippingCost();
     document.getElementById('amount').value = (totalAmount + shippingCost).toFixed(2);
 }
 
-function clearCart() {
-    cart = [];
+function addToCart(id, name, price) {
+    const quantity = parseInt(document.getElementById(`quantity${id}`).value);
+    const existingItem = cart.find(item => item.id === id);
+
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({ id, name, price, quantity });
+        if (cart.length === 1) {
+            generateOrderNumber();
+        }
+    }
+
     updateCartDetails();
-    document.getElementById('shippingCost').value = '4';
-    generateOrderNumber();
 }
 
 function removeFromCart(id) {
@@ -54,35 +49,28 @@ function removeFromCart(id) {
     updateCartDetails();
 }
 
-function generateOrderNumber() {
-    const now = new Date();
-    const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
-    const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-    orderNumber = formattedDate + '-' + formattedTime;
-    document.getElementById('orderNumber').value = orderNumber;
+function clearCart() {
+    cart = [];
+    updateCartDetails();
+    document.getElementById('amount').value = '0.00';
+    document.getElementById('shippingCost').value = '4.00';
 }
 
 document.getElementById('connectButton').addEventListener('click', async () => {
-    if (typeof window.ethereum !== 'undefined') {
+    if (window.ethereum) {
         try {
             await ethereum.request({ method: 'eth_requestAccounts' });
-            document.getElementById('status').innerText = 'Wallet connected!';
+            document.getElementById('status').textContent = 'Wallet connected';
         } catch (error) {
-            console.error('User denied account access');
-            document.getElementById('status').innerText = 'User denied account access';
+            console.error(error);
+            document.getElementById('status').textContent = 'Failed to connect wallet';
         }
     } else {
-        document.getElementById('status').innerText = 'No Ethereum provider detected';
+        document.getElementById('status').textContent = 'Please install a Web3 wallet';
     }
 });
 
 document.getElementById('payButton').addEventListener('click', () => {
-    // Payment logic
+    // Logique de paiement à implémenter ici
+    alert('Payment processing...');
 });
-
-document.getElementById('contactForm').addEventListener('submit', (event) => {
-    event.preventDefault();
-    // Additional logic to handle form submission
-    alert('Form submitted successfully!');
-});
-
