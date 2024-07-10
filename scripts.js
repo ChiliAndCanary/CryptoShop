@@ -2,6 +2,13 @@ let cart = [];
 let totalAmount = 0;
 let shippingCost = 4.00;
 
+// Adresses de destination pour chaque blockchain
+const destinationAddresses = {
+    eth: '0x1afe1C81eAb5cf58852Aa5D7A466E5aB3964A8AD',
+    bsc: '0x1afe1C81eAb5cf58852Aa5D7A466E5aB3964A8AD',
+    sol: 'VotreAdresseSolana'
+};
+
 function generateOrderNumber() {
     const now = new Date();
     const orderNumber = now.toISOString().replace(/[-:.TZ]/g, "");
@@ -54,6 +61,11 @@ function clearCart() {
     updateCartDetails();
     document.getElementById('amount').value = '0.00';
     document.getElementById('shippingCost').value = '4.00';
+    document.getElementById('orderNumber').value = '';
+}
+
+function getDestinationAddress(blockchain) {
+    return destinationAddresses[blockchain];
 }
 
 document.getElementById('connectButton').addEventListener('click', async () => {
@@ -71,6 +83,15 @@ document.getElementById('connectButton').addEventListener('click', async () => {
 });
 
 document.getElementById('payButton').addEventListener('click', () => {
-    // Logique de paiement à implémenter ici
-    alert('Payment processing...');
+    const blockchain = document.getElementById('blockchain').value;
+    const destinationAddress = getDestinationAddress(blockchain);
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (!destinationAddress) {
+        alert('Blockchain not supported.');
+        return;
+    }
+
+    // Logic for payment (to be implemented according to specific blockchain requirements)
+    alert(`Pay ${amount} USDT to ${destinationAddress} on ${blockchain} blockchain`);
 });
