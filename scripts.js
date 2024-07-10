@@ -54,7 +54,6 @@ function clearCart() {
     updateCartDetails();
     document.getElementById('amount').value = '0.00';
     document.getElementById('shippingCost').value = '4.00';
-    document.getElementById('orderNumber').value = '';
 }
 
 document.getElementById('connectButton').addEventListener('click', async () => {
@@ -75,3 +74,4 @@ document.getElementById('payButton').addEventListener('click', () => {
     // Logique de paiement à implémenter ici
     alert('Payment processing...');
 });
+
